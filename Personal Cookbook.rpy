@@ -1,5 +1,6 @@
 # This contains older code that can be repurposed or learned from.
 # I will try to add to this when I discover cool or new bits of code.
+# Much of this code was ripped directly from an old game project, thus the notes about release and endings.
 
 # Other Images
 image white = "#FFFFFF"
