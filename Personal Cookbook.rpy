@@ -117,7 +117,20 @@ label kaimuraq:
 
 # All four endings jump to the code below.
 
+label varibles:
+    $ eu = 0
+    return
+
+label end_1:
+    $ eu += 1
+    "Just showing how this works."
+    call credits
+    "[eu]/4 - The first ending."
+    return
+
 label credits:
+    # This code block can be "call"ed from the ending it relates to.
+    # This will return back to the ending to add how many endings have been unlocked and say which ending it is.
     #$ renpy.movie_cutscene('credits.ogv')
     scene black
     with Pause(1)
