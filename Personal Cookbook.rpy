@@ -36,6 +36,7 @@ define moveoutleftdissolve = ComposeTransition(dissolve, before=moveoutleft)
 # Pre-Menu popup (Splashscreen)
 ## Will be changed once logo and animation has been completed.
 label splashscreen:
+    # Older splash screen made with images and dissolves. You'd probably opt for a video file now.
     #$ renpy.movie_cutscene('splash.ogv') # video file to be used instead of image with pauses.
     scene black
     with Pause(1)
@@ -117,10 +118,13 @@ label kaimuraq:
 
 # All four endings jump to the code below.
 
+# We would call this block near the beginning of the game.
 label varibles:
     $ eu = 0
     return
 
+# These would go  at the end of each route to mark one of the endings.
+# One for each ending your novel has, if there are multiple endings.
 label end_1:
     $ eu += 1
     "Just showing how this works."
@@ -130,7 +134,7 @@ label end_1:
 
 label credits:
     # This code block can be "call"ed from the ending it relates to.
-    # This will return back to the ending to add how many endings have been unlocked and say which ending it is.
+    # This is also an older block for making credits from images.
     #$ renpy.movie_cutscene('credits.ogv')
     scene black
     with Pause(1)
@@ -150,4 +154,5 @@ label credits:
     with Pause(1)
     show thanks with dissolve
     with Pause(2)
+    # This will return back to the ending to add how many endings have been unlocked and say which ending it is.
     return
