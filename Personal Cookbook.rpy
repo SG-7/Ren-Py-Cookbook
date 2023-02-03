@@ -1,6 +1,5 @@
 # This contains older code that can be repurposed or learned from.
 # I will try to add to this when I discover cool or new bits of code.
-# Much of this code was ripped directly from an old game project, thus the notes about release and endings.
 
 # Other Images
 image white = "#FFFFFF"
@@ -10,14 +9,14 @@ image black = "#000000"
 # CTC (Click-to-Continue) Indicator
 image ctc_blink:
     "ctc.png" # This will be the image that shows at the bottom-right of dialog.
-    linear 0.6 alpha 1.0
-    linear 0.6 alpha 0.0
+    linear 0.6 alpha 1.0 # in .6 seconds, the alpha will become 100%
+    linear 0.6 alpha 0.0 # in .6 seconds, the alpha will become 0%
     repeat
-# Note: be sure to add the following to each "character" you want the ctc to show in.
-# ctc="ctc_blink", ctc_position="nestled"
+# ctc="ctc_blink", ctc_position="nestled" must be added in the definition of each character for the indicator to be added to their dialog box.
 
 # Narrator & Other
 define narrator = Character(ctc="ctc_blink", ctc_position="nestled")
+## "narrator" is a special character reserved by Ren'Py that can be customized with a definition.
 define question = Character("???", show_two_window=True, ctc="ctc_blink", ctc_position="nestled")
 # Note: the "show_two_window=True" argument causes the name to be shown in a separate textbox positioned at left just above the regular textbox.
 
@@ -36,7 +35,6 @@ define moveoutleftdissolve = ComposeTransition(dissolve, before=moveoutleft)
 # Pre-Menu popup (Splashscreen)
 ## Will be changed once logo and animation has been completed.
 label splashscreen:
-    # Older splash screen made with images and dissolves. You'd probably opt for a video file now.
     #$ renpy.movie_cutscene('splash.ogv') # video file to be used instead of image with pauses.
     scene black
     with Pause(1)
@@ -50,18 +48,16 @@ label splashscreen:
     with Pause(2)
     return
 
-# Start of the game.
+# Debug Menu at the start.
 label start:
     scene black
-    # jump quiz # Before final release, uncomment the code before this, then delete the following code until the next comment block.
     menu:
         "What do you want to do?"
-        "Play Game?": # Takes you to quiz.
-            jump quiz
-        "Test Scripts": # Remove before release.
-            jump test
+        "Play Game?":
+            jump quiz # Takes you to quiz.
+        "Test Scripts":
+            jump test # Add this label to test a certain script.
     return
-    # Delete the above code before final release.
 # This is a quiz to jump to a certain story point based on cumulative answers.
 label quiz:
     $ q = 0 # This initializes the "q" variable and sets it's value to "0"
@@ -92,13 +88,14 @@ label quiz3:
             jump results
     return
 label results:
-    if q >= 2:
+    if q >= 2: # scores the test and if your result is 2 or greater you go to the Earth story.
         jump humanq
-    else:
+    else: # otherwise you go the the Kaimura story.
         jump kaimuraq
     return
 
 # Results
+## Added as a way to not go in too blindly.
 label humanq:
     menu:
         "Are you sure you want to play as Eve?"
@@ -116,43 +113,27 @@ label kaimuraq:
             jump humanq
     return
 
-# All four endings jump to the code below.
-
-# We would call this block near the beginning of the game.
-label varibles:
-    $ eu = 0
-    return
-
-# These would go  at the end of each route to mark one of the endings.
-# One for each ending your novel has, if there are multiple endings.
-label end_1:
-    $ eu += 1
-    "Just showing how this works."
-    call credits
-    "[eu]/4 - The first ending."
-    return
-
+# Image based Ending Credits
+## Pause times may need to be adjusted depending on the amout of people.
 label credits:
-    # This code block can be "call"ed from the ending it relates to.
-    # This is also an older block for making credits from images.
     #$ renpy.movie_cutscene('credits.ogv')
+    ## When using a video, you may only need the final pause statement.
     scene black
+    with Pause(1) # 1 Second Pause
+    show htsa with dissolve # Title Card
     with Pause(1)
-    show htsa with dissolve
+    show write with dissolve # Writers Card
     with Pause(1)
-    show write with dissolve
+    show bgart with dissolve # Background Artists Card
     with Pause(1)
-    show bgart with dissolve
+    show cart with dissolve # Concept Artists Card
     with Pause(1)
-    show cart with dissolve
+    show prog with dissolve # Programmers Card
     with Pause(1)
-    show prog with dissolve
+    show tests with dissolve # Play-testers Card
     with Pause(1)
-    show tests with dissolve
+    show renpy with dissolve # Ren'Py Card
     with Pause(1)
-    show renpy with dissolve
-    with Pause(1)
-    show thanks with dissolve
-    with Pause(2)
-    # This will return back to the ending to add how many endings have been unlocked and say which ending it is.
+    show thanks with dissolve # Special Thanks Card
+    with Pause(2) # 2 Second Pause before returning to Title Screen
     return
